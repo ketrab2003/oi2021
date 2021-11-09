@@ -1,0 +1,6 @@
+# vs-code
+.vscode/
+
+# tests
+ocen-linux/*/
+ocen-win/*/
