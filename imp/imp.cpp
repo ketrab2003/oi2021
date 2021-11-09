@@ -64,77 +64,74 @@ int main() {
     // --- calculate ---
     uintmax_t all_poss = fac(left_count);
 
-    if (DEBUG)
-    cout << "from left: " << all_poss << endl;
+    if(DEBUG)
+    printf("initial: %llu\n", all_poss);
 
-    // evens from left
-    int i=0;
+    // from left
+    int prev = 0;
+    for(int i=0; i<n; i += 2) {
+        if (tab[i] == tab[i+2]) {
+            // found pair
 
-    // skip all propagated by first - number of possibilities for them is 1
-    while(tab[i] != tab[i+2]) {
-        i += 2;
-    }
-    i += 2;
+            // ignore if first block
+            if(prev != 0) {
+                if(DEBUG)
+                //printf("block: %d - %d term: %d\n", prev, i, tab[i]);
+                printf("%llu * %d\n", all_poss, (i - prev)/2 + 1);
 
-    // skip all propagated by last if odd
-    int our_n = (n%2 == 1 ? n-1 : n-2);
-    if(n%2 == 1) {
-        while(tab[our_n-2] != tab[our_n] && our_n > i) {
-            our_n -= 2;
+                all_poss *= (i - prev)/2 + 1;
+                all_poss %= SET_MOD;
+            }
+
+            prev = i + 4;
+            i += 2;
         }
     }
 
-    if (DEBUG)
-    cout << "skipped to: " << i << " - " << our_n << endl;
+    if(n%2==0) {
+        // not ignore last block
+        if(DEBUG)
+        //printf("[left] last block: %d - %d\n", prev, n-2);
+        printf("%llu * %d\n", all_poss, (n-2 - prev)/2 + 2);
 
-    int local_poss = 0;
-    for(;i<our_n; i+=2) {
-        local_poss++;
-
-        if(tab[i] == tab[i+2]) {
-            // found end
-            all_poss *= local_poss;
+        if(prev <= n-2) {
+            all_poss *= (n-2 - prev)/2 + 2;
             all_poss %= SET_MOD;
-            local_poss = 0;
-            i += 4;
         }
     }
 
-    if(local_poss > 0)
-    all_poss *= local_poss + 1;
-    all_poss %= SET_MOD;
+    if(DEBUG)
+    printf("\n");
 
-    // odds from right
-    i = (n%2 == 0 ? n-1 : n-2);
+    // from right
+    prev = 1;
+    for(int i=1; i<n; i += 2) {
+        if (tab[i] == tab[i+2]) {
+            // found pair
+            if(DEBUG)
+            //printf("block: %d - %d term: %d\n", prev, i, tab[i]);
+            printf("%llu * %d\n", all_poss, (i - prev)/2 + 1);
 
-    // skip all propagated by last if even
-    if(n%2 == 0) {
-        while(tab[i] != tab[i+2]) {
-            i -= 2;
-        }
-    }
-    i -= 2;
-
-    if (DEBUG)
-    cout << "skipped to: " << i << " - " << 0 << endl;
-
-    local_poss = 0;
-    for(;i>0; i-=2) {
-        local_poss++;
-
-        if(i > 2 && tab[i] == tab[i-2]) {
-            all_poss *= local_poss;
+            all_poss *= (i - prev)/2 + 1;
             all_poss %= SET_MOD;
-            local_poss = 0;
-            i -= 4;
+            prev = i + 4;
+            i += 2;
         }
     }
 
-    if(local_poss > 0)
-    all_poss *= local_poss + 1;
-    all_poss %= SET_MOD;
+    if(n%2==1) {
+        // not ignore last block
+        if(DEBUG)
+        //printf("[right] last block: %d - %d\n", prev, n-2);
+        printf("%llu * %d\n", all_poss, (n-2 - prev)/2 + 2);
 
-    cout << all_poss << "\n";
+        if(prev <= n-2) {
+            all_poss *= (n-2 - prev)/2 + 2;
+            all_poss %= SET_MOD;
+        }
+    }
+
+    cout << all_poss << '\n';
 
     return 0;
 }

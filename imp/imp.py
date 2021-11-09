@@ -60,11 +60,17 @@ else:
 
 poss = fac(left_count)
 
+print(f'initial: {poss}')
+
 for g in tab1:
+    print(f'{poss} * {len(g)+1}')
     poss *= len(g)+1
     poss %= MOD_LIMIT
 
+print()
+
 for g in tab2:
+    print(f'{poss} * {len(g)+1}')
     poss *= len(g)+1
     poss %= MOD_LIMIT
 
