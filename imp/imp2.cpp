@@ -35,7 +35,7 @@ int main() {
 
     for(int i=0; i<n; ++i) {
         if(visited[tab[i]] > 0) {
-            puts("0");
+            puts("0\n");
             return 0;
         }
         if(tab[i] == tab[i+2]) {
@@ -43,7 +43,7 @@ int main() {
             if(visited[tab[i]] == 0) {
                 visited[tab[i]] = -1;
             } else {
-                puts("0");
+                puts("0\n");
                 return 0;
             }
         } else {
@@ -54,9 +54,9 @@ int main() {
 
     if(left_count == 0) {
         if(n%2 == 1) {
-            puts("0");
+            puts("0\n");
         } else {
-            puts("1");
+            puts("1\n");
         }
         return 0;
     }
@@ -66,8 +66,6 @@ int main() {
 
     if(DEBUG)
     printf("initial: %llu\n", all_poss);
-
-    int oper_count = 0;
 
     // from left
     int prev = 0;
@@ -81,7 +79,6 @@ int main() {
                 //printf("block: %d - %d term: %d\n", prev, i, tab[i]);
                 printf("%llu * %d\n", all_poss, (i - prev)/2 + 1);
 
-                oper_count++;
                 all_poss *= (i - prev)/2 + 1;
                 all_poss %= SET_MOD;
             }
@@ -93,13 +90,11 @@ int main() {
 
     if(n%2==0) {
         // not ignore last block
+        if(DEBUG)
+        //printf("[left] last block: %d - %d\n", prev, n-2);
+        printf("%llu * %d\n", all_poss, (n-2 - prev)/2 + 2);
 
-        if(prev <= n-2 && prev != 0) {
-            if(DEBUG)
-            //printf("[left] last block: %d - %d\n", prev, n-2);
-            printf("%llu * %d\n", all_poss, (n-2 - prev)/2 + 2);
-
-            oper_count++;
+        if(prev <= n-2) {
             all_poss *= (n-2 - prev)/2 + 2;
             all_poss %= SET_MOD;
         }
@@ -113,12 +108,10 @@ int main() {
     for(int i=1; i<n; i += 2) {
         if (tab[i] == tab[i+2]) {
             // found pair
-
             if(DEBUG)
             //printf("block: %d - %d term: %d\n", prev, i, tab[i]);
             printf("%llu * %d\n", all_poss, (i - prev)/2 + 1);
 
-            oper_count++;
             all_poss *= (i - prev)/2 + 1;
             all_poss %= SET_MOD;
             prev = i + 4;
@@ -133,18 +126,9 @@ int main() {
         printf("%llu * %d\n", all_poss, (n-2 - prev)/2 + 2);
 
         if(prev <= n-2) {
-            oper_count++;
             all_poss *= (n-2 - prev)/2 + 2;
             all_poss %= SET_MOD;
         }
-    }
-
-    if(DEBUG)
-    cout << left_count << "\n" << oper_count << "\n";
-
-    if(oper_count > left_count) {
-        puts("0");
-        return 0;
     }
 
     cout << all_poss << '\n';

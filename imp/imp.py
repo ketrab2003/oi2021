@@ -2,6 +2,7 @@ import ast
 import re
 import sys
 
+
 MOD_LIMIT = 1_000_000_007
 
 n = int(input())
@@ -53,6 +54,8 @@ def groupby_dup(tab):
 tab1 = groupby_dup(tab1)[1:]
 tab2 = groupby_dup(tab2)
 
+# print(len(tab1), len(tab2))
+
 if n%2 == 1:
     tab1 = tab1[:-1]
 else:
@@ -60,17 +63,24 @@ else:
 
 poss = fac(left_count)
 
-print(f'initial: {poss}')
+#print(f'initial: {poss}')
+
+# print(left_count)
+# print(len(tab1), len(tab2))
+
+if len(tab1) + len(tab2) > left_count:
+    print(0)
+    sys.exit()
 
 for g in tab1:
-    print(f'{poss} * {len(g)+1}')
+    # print(f'{poss} * {len(g)+1}')
     poss *= len(g)+1
     poss %= MOD_LIMIT
 
-print()
+# print()
 
 for g in tab2:
-    print(f'{poss} * {len(g)+1}')
+    # print(f'{poss} * {len(g)+1}')
     poss *= len(g)+1
     poss %= MOD_LIMIT
 

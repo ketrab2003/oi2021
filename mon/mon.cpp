@@ -6,7 +6,8 @@
 using namespace std;
 
 struct Movie {
-    int i, t, d;
+    long long t, d;
+    int i;
     bool used=false;
 };
 
@@ -23,7 +24,7 @@ int main() {
     for(int i=0; i<n; ++i) {
         tab[i] = &(vals[i]);
         tab[i]->i = i+1;
-        scanf("%d%d", &(tab[i]->t), &(tab[i]->d));
+        scanf("%lld%lld", &(tab[i]->t), &(tab[i]->d));
     }
 
     sort(tab, tab+n, movie_sort_cmp);
@@ -74,11 +75,11 @@ int main() {
 
     printf("%d\n", used_n);
 
-    int t = 1;
+    unsigned long long t = 1;
     for(int i=0; i<n; ++i) {
         Movie* m = tab[i];
         if(m->used) {
-            printf("%d %d\n", m->i, t);
+            printf("%d %llu\n", m->i, t);
             t += m->t;
         }
     }

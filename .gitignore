@@ -2,8 +2,10 @@
 .vscode/
 
 # tests
-ocen-linux/*/
-ocen-win/*/
+ocen-linux/in/*
+ocen-linux/out/*
+ocen-win/in/*
+ocen-win/out/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -143,3 +145,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Compiled files
+*.exe
